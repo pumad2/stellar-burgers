@@ -1,4 +1,5 @@
 import { useSelector } from '../../services/store';
+import { selectIngredientsIsLoading } from '../../services/selectors/indredientsSelectors';
 
 import styles from './constructor-page.module.css';
 
@@ -9,7 +10,7 @@ import { FC } from 'react';
 
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
+  const isIngredientsLoading = useSelector(selectIngredientsIsLoading);
 
   return (
     <>
