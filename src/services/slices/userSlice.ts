@@ -1,8 +1,17 @@
-import { getOrdersApi, getUserApi, loginUserApi, logoutApi, registerUserApi, TLoginData, TRegisterData, updateUserApi } from "@api";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { TOrder, TUser } from "@utils-types";
-import { setCookie, deleteCookie } from "../../utils/cookie";
-import { orderBurgerThunk } from "./orderSlice";
+import {
+  getOrdersApi,
+  getUserApi,
+  loginUserApi,
+  logoutApi,
+  registerUserApi,
+  TLoginData,
+  TRegisterData,
+  updateUserApi
+} from '@api';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { TOrder, TUser } from '@utils-types';
+import { setCookie, deleteCookie } from '../../utils/cookie';
+import { orderBurgerThunk } from './orderSlice';
 
 export const registerUserThunk = createAsyncThunk(
   'user/register',
@@ -24,13 +33,10 @@ export const loginUserThunk = createAsyncThunk(
   }
 );
 
-export const getUserThunk = createAsyncThunk(
-  'user/getUser',
-  async () => {
-    const res = await getUserApi();
-    return res.user;
-  }
-);
+export const getUserThunk = createAsyncThunk('user/getUser', async () => {
+  const res = await getUserApi();
+  return res.user;
+});
 
 export const updateUserThunk = createAsyncThunk(
   'user/updateUser',
@@ -40,14 +46,11 @@ export const updateUserThunk = createAsyncThunk(
   }
 );
 
-export const logoutThunk = createAsyncThunk(
-  'user/logout',
-  async () => {
-    await logoutApi();
-    deleteCookie('accessToken');
-    localStorage.removeItem('refreshToken');
-  }
-);
+export const logoutThunk = createAsyncThunk('user/logout', async () => {
+  await logoutApi();
+  deleteCookie('accessToken');
+  localStorage.removeItem('refreshToken');
+});
 
 interface userState {
   user: TUser | null;
@@ -55,14 +58,14 @@ interface userState {
   isInit: boolean;
   isAuth: boolean;
   error: string | null;
-};
+}
 
 const initialState: userState = {
   user: null,
   isUserLoading: false,
   isInit: false,
   isAuth: false,
-  error: null,
+  error: null
 };
 
 export const userSlice = createSlice({
@@ -86,7 +89,7 @@ export const userSlice = createSlice({
       state.isInit = true;
       state.error = action.error.message || 'Ошибка регистрации';
     });
-    builder.addCase(registerUserThunk.fulfilled, (state, {payload}) => {
+    builder.addCase(registerUserThunk.fulfilled, (state, { payload }) => {
       state.isUserLoading = false;
       state.isInit = true;
       state.user = payload;
@@ -102,7 +105,7 @@ export const userSlice = createSlice({
       state.isInit = true;
       state.error = action.error.message || 'Ошибка аутентификации';
     });
-    builder.addCase(loginUserThunk.fulfilled, (state, {payload}) => {
+    builder.addCase(loginUserThunk.fulfilled, (state, { payload }) => {
       state.isUserLoading = false;
       state.isInit = true;
       state.user = payload;
@@ -118,7 +121,7 @@ export const userSlice = createSlice({
       state.isInit = true;
       state.error = action.error.message || 'Ошибка загрузки';
     });
-    builder.addCase(getUserThunk.fulfilled, (state, {payload}) => {
+    builder.addCase(getUserThunk.fulfilled, (state, { payload }) => {
       state.isUserLoading = false;
       state.isInit = true;
       state.user = payload;
@@ -154,6 +157,6 @@ export const userSlice = createSlice({
   }
 });
 
-export const {init, logout} = userSlice.actions;
+export const { init, logout } = userSlice.actions;
 
 export default userSlice.reducer;

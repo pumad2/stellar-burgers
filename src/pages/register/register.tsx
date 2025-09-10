@@ -12,14 +12,14 @@ export const Register: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(registerUserThunk({ name: userName, email: email, password: password }))
-    .unwrap()
-    .then (() => {
-      return <Navigate replace to='/login' />;
-    })
-    .catch ((err) => {
-      console.error('Ошибка регистрации', err);
-    })
+    dispatch(
+      registerUserThunk({ name: userName, email: email, password: password })
+    )
+      .unwrap()
+      .then(() => <Navigate replace to='/login' />)
+      .catch((err) => {
+        console.error('Ошибка регистрации', err);
+      });
   };
 
   return (

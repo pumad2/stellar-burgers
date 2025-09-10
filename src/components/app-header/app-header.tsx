@@ -3,4 +3,6 @@ import { AppHeaderUI } from '@ui';
 import { useSelector } from '../../services/store';
 import { selectUser } from '../../services/selectors/userSelectors';
 
-export const AppHeader: FC = () => <AppHeaderUI userName={useSelector(selectUser)?.name} />;
+export const AppHeader: FC = () => (
+  <AppHeaderUI userName={useSelector(selectUser)?.name} />
+);

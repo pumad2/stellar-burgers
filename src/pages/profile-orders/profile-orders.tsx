@@ -4,7 +4,10 @@ import { FC, useEffect } from 'react';
 import { Preloader } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import { getOrdersThunk } from '../../services/slices/orderSlice';
-import { selectOrders, selectOrdersIsLoading } from '../../services/selectors/ordersSelectors';
+import {
+  selectOrders,
+  selectOrdersIsLoading
+} from '../../services/selectors/ordersSelectors';
 
 export const ProfileOrders: FC = () => {
   /** TODO: взять переменную из стора */

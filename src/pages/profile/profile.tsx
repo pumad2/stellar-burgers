@@ -19,11 +19,12 @@ export const Profile: FC = () => {
 
   useEffect(() => {
     if (user) {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
-    }))};
+      setFormValue((prevState) => ({
+        ...prevState,
+        name: user?.name || '',
+        email: user?.email || ''
+      }));
+    }
   }, [user]);
 
   const isFormChanged =
@@ -39,11 +40,12 @@ export const Profile: FC = () => {
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     if (user) {
-    setFormValue({
-      name: user.name || '',
-      email: user.email || '',
-      password: ''
-    })};
+      setFormValue({
+        name: user.name || '',
+        email: user.email || '',
+        password: ''
+      });
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

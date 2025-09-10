@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   ingredientsReducer,
   feedsReducer,
   constructorReducer
-})
+});
 
 const store = configureStore({
   reducer: rootReducer,

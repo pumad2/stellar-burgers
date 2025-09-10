@@ -1,24 +1,32 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI, Preloader } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
-import { selectConstructorIsLoading, selectConstructorItems, selectConstructorState } from '../../services/selectors/constructorSelectors';
-import { selectOrderModalData, selectOrderRequest } from '../../services/selectors/ordersSelectors';
-import { resetModal, resetOrderByNumber } from '../../services/slices/orderSlice';
+import {
+  selectConstructorIsLoading,
+  selectConstructorItems,
+  selectConstructorState
+} from '../../services/selectors/constructorSelectors';
+import {
+  selectOrderModalData,
+  selectOrderRequest
+} from '../../services/selectors/ordersSelectors';
+import { resetModal } from '../../services/slices/orderSlice';
 import { selectUser } from '../../services/selectors/userSelectors';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { orderBurgerThunk } from '../../services/slices/orderSlice';
 import { resetConstructor } from '../../services/slices/constructorSlice';
 
 export const BurgerConstructor: FC = () => {
-  const orderRequest = useSelector(selectOrderRequest)
+  const orderRequest = useSelector(selectOrderRequest);
   const constructorItems = useSelector(selectConstructorItems);
-  const orderModalData = useSelector(selectOrderModalData)
+  const orderModalData = useSelector(selectOrderModalData);
   const user = useSelector(selectUser);
-  const isLoading = useSelector(selectConstructorIsLoading)
-  
+  const isLoading = useSelector(selectConstructorIsLoading);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
 
   if (isLoading) {
@@ -31,7 +39,7 @@ export const BurgerConstructor: FC = () => {
     if (!user) {
       navigate('/login');
       return;
-    };
+    }
 
     const orderIngredients = [
       constructorItems.bun._id,
@@ -39,14 +47,17 @@ export const BurgerConstructor: FC = () => {
       constructorItems.bun._id
     ];
 
-    dispatch(orderBurgerThunk(orderIngredients))
-    .then(() => {
+    dispatch(orderBurgerThunk(orderIngredients)).then(() => {
       dispatch(resetConstructor());
-    })
+    });
   };
   const closeOrderModal = () => {
     dispatch(resetModal());
   };
+
+  useEffect(() => {
+    dispatch(resetModal());
+  }, [dispatch]);
 
   const price = useMemo(
     () =>
