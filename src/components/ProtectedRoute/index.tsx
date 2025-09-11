@@ -21,6 +21,7 @@ export const ProtectedRoute = ({
   const user = useSelector(selectUser);
   const isLoading = useSelector(selectUserIsLoading);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     if (!user && localStorage.getItem('refreshToken')) {
@@ -33,12 +34,12 @@ export const ProtectedRoute = ({
   }
 
   if (!user && !onlyUnAuth) {
-    return <Navigate replace to='/login' />;
+    return <Navigate replace to='/login' state={{ from: location }} />;
   }
 
   if (user && onlyUnAuth) {
     return <Navigate replace to='/profile' />;
   }
 
-  return <>{children}</>;
+  return children;
 };

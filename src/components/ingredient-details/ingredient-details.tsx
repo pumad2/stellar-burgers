@@ -3,7 +3,8 @@ import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useSelector } from '../../services/store';
 import { selectIngredients } from '../../services/selectors/indredientsSelectors';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import styles from '../ui/modal/modal.module.css';
 
 export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора */
@@ -13,10 +14,24 @@ export const IngredientDetails: FC = () => {
     () => ingredients.find((item) => item._id === id) || null,
     [ingredients, id]
   );
+  const location = useLocation();
+  const isModal = !!location.state?.background;
 
   if (!ingredientData) {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  return (
+    <>
+      {!isModal && (
+        <h3
+          style={{ textAlign: 'center' }}
+          className={`${styles.title} text text_type_main-large`}
+        >
+          Детали ингредиента
+        </h3>
+      )}
+      <IngredientDetailsUI ingredientData={ingredientData} />
+    </>
+  );
 };

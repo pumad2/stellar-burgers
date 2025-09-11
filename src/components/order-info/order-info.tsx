@@ -5,12 +5,12 @@ import { TIngredient } from '@utils-types';
 import { useDispatch, useSelector } from '../../services/store';
 import { selectOrderModalData } from '../../services/selectors/ordersSelectors';
 import { selectIngredients } from '../../services/selectors/indredientsSelectors';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import {
   getOrderByNumberThunk,
   resetModal
 } from '../../services/slices/orderSlice';
-import { selectUser } from '../../services/selectors/userSelectors';
+import styles from '../ui/order-card/order-card.module.css';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
@@ -18,6 +18,8 @@ export const OrderInfo: FC = () => {
   const ingredients: TIngredient[] = useSelector(selectIngredients);
   const dispatch = useDispatch();
   const { number } = useParams<{ number: string }>();
+  const location = useLocation();
+  const isModal = !!location.state?.background;
 
   useEffect(() => {
     if (number && !orderData) {
@@ -72,5 +74,17 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return (
+    <>
+      {!isModal && (
+        <h3
+          style={{ textAlign: 'center' }}
+          className={`text text_type_digits-default ${styles.number}`}
+        >
+          #{`${String(orderInfo.number).padStart(6, '0')}`}
+        </h3>
+      )}
+      <OrderInfoUI orderInfo={orderInfo} />;
+    </>
+  );
 };
