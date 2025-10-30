@@ -29,7 +29,7 @@ export const ProtectedRoute = ({
     }
   }, [dispatch, user]);
 
-  if (isLoading || (!user && localStorage.getItem('refreshToken'))) {
+  if (isLoading) {
     return <Preloader />;
   }
 

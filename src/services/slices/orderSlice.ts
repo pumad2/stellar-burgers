@@ -32,7 +32,7 @@ interface orderState {
   error: string | null;
 }
 
-const initialState: orderState = {
+export const initialState: orderState = {
   orders: [],
   orderModalData: null,
   orderRequest: false,

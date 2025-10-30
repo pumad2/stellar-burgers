@@ -66,4 +66,5 @@ export const {
   moveIngredient,
   resetConstructor
 } = constructorSlice.actions;
+
 export default constructorSlice.reducer;
